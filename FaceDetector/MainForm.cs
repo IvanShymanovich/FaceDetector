@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FaceDetector.Filter;
 
 namespace FaceDetector
 {
@@ -17,7 +18,7 @@ namespace FaceDetector
     /// </summary>
     public partial class MainForm : Form
     {
-
+        private Bitmap Image;
         /// <summary>
         /// Constructor w/o parameters.
         /// </summary>
@@ -39,8 +40,8 @@ namespace FaceDetector
                 Stream fileStream = OpenImageFileDialog.OpenFile();
                 if (fileStream != null)
                 {
-                    Bitmap image = new Bitmap(fileStream);
-                    MainPictureBox.Image = image;
+                    Image = new Bitmap(fileStream);
+                    MainPictureBox.Image = Image;
                     ProcessButton.Enabled = true;
                 }
             }
@@ -48,9 +49,11 @@ namespace FaceDetector
 
         private void ProcessButton_Click(object sender, EventArgs e)
         {
-            if (MainPictureBox.Image != null) 
+            if (Image != null)
             {
-                
+//                MedianFilter medianFilter = new MedianFilter(Image, (int) medianUpDown.Value);
+
+                MainPictureBox.Image = new MedianFilter().ApplyMedianFilter(Image, (int)medianUpDown.Value);
             }
             else
             {

@@ -33,12 +33,15 @@
             this.LoadImageButton = new System.Windows.Forms.Button();
             this.OpenImageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainPictureBox = new System.Windows.Forms.PictureBox();
+            this.medianUpDown = new System.Windows.Forms.NumericUpDown();
             this.mainControlPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.medianUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // mainControlPanel
             // 
+            this.mainControlPanel.Controls.Add(this.medianUpDown);
             this.mainControlPanel.Controls.Add(this.ProcessButton);
             this.mainControlPanel.Controls.Add(this.LoadImageButton);
             this.mainControlPanel.Location = new System.Drawing.Point(545, 12);
@@ -80,6 +83,33 @@
             this.MainPictureBox.TabIndex = 1;
             this.MainPictureBox.TabStop = false;
             // 
+            // medianUpDown
+            // 
+            this.medianUpDown.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.medianUpDown.Location = new System.Drawing.Point(150, 89);
+            this.medianUpDown.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.medianUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.medianUpDown.Name = "medianUpDown";
+            this.medianUpDown.Size = new System.Drawing.Size(47, 20);
+            this.medianUpDown.TabIndex = 2;
+            this.medianUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -91,6 +121,7 @@
             this.Text = "Face Detector";
             this.mainControlPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.medianUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -102,6 +133,7 @@
         private System.Windows.Forms.OpenFileDialog OpenImageFileDialog;
         private System.Windows.Forms.PictureBox MainPictureBox;
         private System.Windows.Forms.Button ProcessButton;
+        private System.Windows.Forms.NumericUpDown medianUpDown;
     }
 }
 
