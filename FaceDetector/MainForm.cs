@@ -51,9 +51,10 @@ namespace FaceDetector
         {
             if (Image != null)
             {
-//                MedianFilter medianFilter = new MedianFilter(Image, (int) medianUpDown.Value);
+                //MedianFilter medianFilter = new MedianFilter(Image, (int) medianUpDown.Value);
 
-                MainPictureBox.Image = new MedianFilter().ApplyMedianFilter(Image, (int)medianUpDown.Value);
+                //MainPictureBox.Image = new MedianFilter().ApplyMedianFilter(Image, (int)medianUpDown.Value);
+                MainPictureBox.Image = new GaussianBlurFilter().ApplyGaussianBlur(Image, new Rectangle(0, 0, Image.Width, Image.Height), (int)medianUpDown.Value);
             }
             else
             {
