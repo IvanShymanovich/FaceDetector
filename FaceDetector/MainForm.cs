@@ -18,7 +18,7 @@ namespace FaceDetector
     /// </summary>
     public partial class MainForm : Form
     {
-        private Bitmap Image;
+        private Bitmap image;
         /// <summary>
         /// Constructor w/o parameters.
         /// </summary>
@@ -40,8 +40,8 @@ namespace FaceDetector
                 Stream fileStream = OpenImageFileDialog.OpenFile();
                 if (fileStream != null)
                 {
-                    Image = new Bitmap(fileStream);
-                    MainPictureBox.Image = Image;
+                    image = new Bitmap(fileStream);
+                    MainPictureBox.Image = image;
                     ProcessButton.Enabled = true;
                 }
             }
@@ -49,17 +49,32 @@ namespace FaceDetector
 
         private void ProcessButton_Click(object sender, EventArgs e)
         {
-            if (Image != null)
+            if (image != null)
             {
                 //MedianFilter medianFilter = new MedianFilter(Image, (int) medianUpDown.Value);
 
                 //MainPictureBox.Image = new MedianFilter().ApplyMedianFilter(Image, (int)medianUpDown.Value);
-                MainPictureBox.Image = new GaussianBlurFilter().ApplyGaussianBlur(Image, new Rectangle(0, 0, Image.Width, Image.Height), (int)medianUpDown.Value);
+                image = new GaussianBlurFilter().ApplyGaussianBlur(image,
+                    new Rectangle(0, 0, image.Width, image.Height), (int)medianUpDown.Value);
+                
+                MainPictureBox.Image = image;
+
             }
             else
             {
                 MessageBox.Show("There is no image to process. Load it and try again.");
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
