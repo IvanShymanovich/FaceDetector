@@ -56,7 +56,13 @@ namespace FaceDetector
                 //MainPictureBox.Image = new MedianFilter().ApplyMedianFilter(Image, (int)medianUpDown.Value);
                 image = new GaussianBlurFilter().ApplyGaussianBlur(image,
                     new Rectangle(0, 0, image.Width, image.Height), (int)medianUpDown.Value);
-                
+                if (contrast_textBox.Text != "100")
+                {
+                    int percent = Int32.Parse(contrast_textBox.Text);
+                    image = new ContrastFilter().ApplyContrast(image, new Rectangle(0, 0, image.Width, image.Height), percent);
+                    contrast_textBox.Text = "100";
+
+                }
                 MainPictureBox.Image = image;
 
             }

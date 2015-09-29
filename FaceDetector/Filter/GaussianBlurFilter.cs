@@ -12,7 +12,8 @@ namespace FaceDetector.Filter
 
         public Bitmap ApplyGaussianBlur(Bitmap image, Rectangle rectangle, Int32 blurSize)
         {
-
+            if (blurSize == 1)
+                return image;
             Bitmap blurred = new Bitmap(image.Width, image.Height);
 
             // make an exact copy of the bitmap provided
