@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.mainControlPanel = new System.Windows.Forms.Panel();
-            this.color_matching_numeric = new System.Windows.Forms.NumericUpDown();
+            this.contrast_percent = new System.Windows.Forms.Label();
+            this.contrast_textBox = new System.Windows.Forms.TextBox();
+            this.red_numeric = new System.Windows.Forms.NumericUpDown();
             this.color_matching_label = new System.Windows.Forms.Label();
             this.v = new System.Windows.Forms.Label();
             this.medianUpDown = new System.Windows.Forms.NumericUpDown();
@@ -37,21 +39,29 @@
             this.LoadImageButton = new System.Windows.Forms.Button();
             this.OpenImageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainPictureBox = new System.Windows.Forms.PictureBox();
-            this.contrast_textBox = new System.Windows.Forms.TextBox();
-            this.contrast_percent = new System.Windows.Forms.Label();
-            this.color_matching_label_px = new System.Windows.Forms.Label();
+            this.red_label = new System.Windows.Forms.Label();
+            this.gren_label = new System.Windows.Forms.Label();
+            this.green_numeric = new System.Windows.Forms.NumericUpDown();
+            this.blueLabel = new System.Windows.Forms.Label();
+            this.blueNumeric = new System.Windows.Forms.NumericUpDown();
             this.mainControlPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.color_matching_numeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.red_numeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.medianUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.green_numeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.blueNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // mainControlPanel
             // 
-            this.mainControlPanel.Controls.Add(this.color_matching_label_px);
+            this.mainControlPanel.Controls.Add(this.blueLabel);
+            this.mainControlPanel.Controls.Add(this.blueNumeric);
+            this.mainControlPanel.Controls.Add(this.gren_label);
+            this.mainControlPanel.Controls.Add(this.green_numeric);
+            this.mainControlPanel.Controls.Add(this.red_label);
             this.mainControlPanel.Controls.Add(this.contrast_percent);
             this.mainControlPanel.Controls.Add(this.contrast_textBox);
-            this.mainControlPanel.Controls.Add(this.color_matching_numeric);
+            this.mainControlPanel.Controls.Add(this.red_numeric);
             this.mainControlPanel.Controls.Add(this.color_matching_label);
             this.mainControlPanel.Controls.Add(this.v);
             this.mainControlPanel.Controls.Add(this.medianUpDown);
@@ -62,28 +72,47 @@
             this.mainControlPanel.Size = new System.Drawing.Size(200, 337);
             this.mainControlPanel.TabIndex = 0;
             // 
-            // color_matching_numeric
+            // contrast_percent
             // 
-            this.color_matching_numeric.Increment = new decimal(new int[] {
+            this.contrast_percent.AutoSize = true;
+            this.contrast_percent.Location = new System.Drawing.Point(175, 118);
+            this.contrast_percent.Name = "contrast_percent";
+            this.contrast_percent.Size = new System.Drawing.Size(15, 13);
+            this.contrast_percent.TabIndex = 8;
+            this.contrast_percent.Text = "%";
+            // 
+            // contrast_textBox
+            // 
+            this.contrast_textBox.Location = new System.Drawing.Point(122, 115);
+            this.contrast_textBox.Name = "contrast_textBox";
+            this.contrast_textBox.Size = new System.Drawing.Size(47, 20);
+            this.contrast_textBox.TabIndex = 7;
+            this.contrast_textBox.Text = "100";
+            this.contrast_textBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // red_numeric
+            // 
+            this.red_numeric.DecimalPlaces = 1;
+            this.red_numeric.Increment = new decimal(new int[] {
             2,
             0,
             0,
-            0});
-            this.color_matching_numeric.Location = new System.Drawing.Point(122, 141);
-            this.color_matching_numeric.Maximum = new decimal(new int[] {
-            999,
+            65536});
+            this.red_numeric.Location = new System.Drawing.Point(6, 183);
+            this.red_numeric.Maximum = new decimal(new int[] {
+            5,
             0,
             0,
             0});
-            this.color_matching_numeric.Minimum = new decimal(new int[] {
-            1,
+            this.red_numeric.Minimum = new decimal(new int[] {
+            2,
             0,
             0,
-            0});
-            this.color_matching_numeric.Name = "color_matching_numeric";
-            this.color_matching_numeric.Size = new System.Drawing.Size(47, 20);
-            this.color_matching_numeric.TabIndex = 6;
-            this.color_matching_numeric.Value = new decimal(new int[] {
+            65536});
+            this.red_numeric.Name = "red_numeric";
+            this.red_numeric.Size = new System.Drawing.Size(47, 20);
+            this.red_numeric.TabIndex = 6;
+            this.red_numeric.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -94,9 +123,10 @@
             this.color_matching_label.AutoSize = true;
             this.color_matching_label.Location = new System.Drawing.Point(3, 148);
             this.color_matching_label.Name = "color_matching_label";
-            this.color_matching_label.Size = new System.Drawing.Size(77, 13);
+            this.color_matching_label.Size = new System.Drawing.Size(80, 13);
             this.color_matching_label.TabIndex = 5;
-            this.color_matching_label.Text = "Color matching";
+            this.color_matching_label.Text = "Color matching:";
+            this.color_matching_label.Click += new System.EventHandler(this.color_matching_label_Click);
             // 
             // v
             // 
@@ -168,33 +198,89 @@
             this.MainPictureBox.TabIndex = 1;
             this.MainPictureBox.TabStop = false;
             // 
-            // contrast_textBox
+            // red_label
             // 
-            this.contrast_textBox.Location = new System.Drawing.Point(122, 115);
-            this.contrast_textBox.Name = "contrast_textBox";
-            this.contrast_textBox.Size = new System.Drawing.Size(47, 20);
-            this.contrast_textBox.TabIndex = 7;
-            this.contrast_textBox.Text = "100";
-            this.contrast_textBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.red_label.AutoSize = true;
+            this.red_label.Location = new System.Drawing.Point(6, 165);
+            this.red_label.Name = "red_label";
+            this.red_label.Size = new System.Drawing.Size(22, 13);
+            this.red_label.TabIndex = 9;
+            this.red_label.Text = "red";
             // 
-            // contrast_percent
+            // gren_label
             // 
-            this.contrast_percent.AutoSize = true;
-            this.contrast_percent.Location = new System.Drawing.Point(175, 118);
-            this.contrast_percent.Name = "contrast_percent";
-            this.contrast_percent.Size = new System.Drawing.Size(15, 13);
-            this.contrast_percent.TabIndex = 8;
-            this.contrast_percent.Text = "%";
+            this.gren_label.AutoSize = true;
+            this.gren_label.Location = new System.Drawing.Point(59, 165);
+            this.gren_label.Name = "gren_label";
+            this.gren_label.Size = new System.Drawing.Size(34, 13);
+            this.gren_label.TabIndex = 11;
+            this.gren_label.Text = "green";
+            this.gren_label.Click += new System.EventHandler(this.label1_Click_1);
             // 
-            // color_matching_label_px
+            // green_numeric
             // 
-            this.color_matching_label_px.AutoSize = true;
-            this.color_matching_label_px.Location = new System.Drawing.Point(175, 148);
-            this.color_matching_label_px.Name = "color_matching_label_px";
-            this.color_matching_label_px.Size = new System.Drawing.Size(18, 13);
-            this.color_matching_label_px.TabIndex = 9;
-            this.color_matching_label_px.Text = "px";
-            this.color_matching_label_px.Click += new System.EventHandler(this.label1_Click);
+            this.green_numeric.DecimalPlaces = 1;
+            this.green_numeric.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
+            this.green_numeric.Location = new System.Drawing.Point(59, 183);
+            this.green_numeric.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.green_numeric.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
+            this.green_numeric.Name = "green_numeric";
+            this.green_numeric.Size = new System.Drawing.Size(47, 20);
+            this.green_numeric.TabIndex = 10;
+            this.green_numeric.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
+            // 
+            // blueLabel
+            // 
+            this.blueLabel.AutoSize = true;
+            this.blueLabel.Location = new System.Drawing.Point(112, 165);
+            this.blueLabel.Name = "blueLabel";
+            this.blueLabel.Size = new System.Drawing.Size(27, 13);
+            this.blueLabel.TabIndex = 13;
+            this.blueLabel.Text = "blue";
+            // 
+            // blueNumeric
+            // 
+            this.blueNumeric.DecimalPlaces = 1;
+            this.blueNumeric.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
+            this.blueNumeric.Location = new System.Drawing.Point(112, 183);
+            this.blueNumeric.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.blueNumeric.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
+            this.blueNumeric.Name = "blueNumeric";
+            this.blueNumeric.Size = new System.Drawing.Size(47, 20);
+            this.blueNumeric.TabIndex = 12;
+            this.blueNumeric.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // MainForm
             // 
@@ -207,9 +293,11 @@
             this.Text = "Face Detector";
             this.mainControlPanel.ResumeLayout(false);
             this.mainControlPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.color_matching_numeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.red_numeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.medianUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.green_numeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.blueNumeric)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -224,10 +312,14 @@
         private System.Windows.Forms.NumericUpDown medianUpDown;
         private System.Windows.Forms.Label v;
         private System.Windows.Forms.Label color_matching_label;
-        private System.Windows.Forms.NumericUpDown color_matching_numeric;
+        private System.Windows.Forms.NumericUpDown red_numeric;
         private System.Windows.Forms.TextBox contrast_textBox;
-        private System.Windows.Forms.Label color_matching_label_px;
         private System.Windows.Forms.Label contrast_percent;
+        private System.Windows.Forms.Label red_label;
+        private System.Windows.Forms.Label blueLabel;
+        private System.Windows.Forms.NumericUpDown blueNumeric;
+        private System.Windows.Forms.Label gren_label;
+        private System.Windows.Forms.NumericUpDown green_numeric;
     }
 }
 

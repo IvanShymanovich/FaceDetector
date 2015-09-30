@@ -19,6 +19,9 @@ namespace FaceDetector
     public partial class MainForm : Form
     {
         private Bitmap image;
+        private int old_green_numeric = 6;
+        private int old_red_numeric = 6;
+        private int old_blue_numeric = 6;
         /// <summary>
         /// Constructor w/o parameters.
         /// </summary>
@@ -63,11 +66,14 @@ namespace FaceDetector
                     contrast_textBox.Text = "100";
 
                 }
-                if ((int)color_matching_numeric.Value != 1)
+                if ((int)red_numeric.Value != old_green_numeric | green_numeric.Value!=old_green_numeric |
+                    old_red_numeric!=blueNumeric.Value)
                 {
-                    int color_pixel = (int)color_matching_numeric.Value;
-                    image = new ColorMatchingFilter().apply(image, new Rectangle(0, 0, image.Width + 2 * color_pixel,
-                        image.Height + 2 * color_pixel), color_pixel);    
+                    image = new ColorMatchingFilter().apply(image, (int)red_numeric.Value, (int)green_numeric.Value, 
+                        (int)blueNumeric.Value);
+                    old_green_numeric = (int)red_numeric.Value;
+                    old_green_numeric = (int)green_numeric.Value;
+                    old_red_numeric = (int)blueNumeric.Value;
                 }
                 
 
@@ -85,6 +91,16 @@ namespace FaceDetector
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void color_matching_label_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
         {
 
         }
