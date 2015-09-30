@@ -59,12 +59,19 @@ namespace FaceDetector
                 if (contrast_textBox.Text != "100")
                 {
                     int percent = Int32.Parse(contrast_textBox.Text);
-                    image = new ContrastFilter().ApplyContrast(image, new Rectangle(0, 0, image.Width, image.Height), percent);
+                    image = new ContrastFilter().apply2(image, new Rectangle(0, 0, image.Width, image.Height), percent);
                     contrast_textBox.Text = "100";
 
                 }
-                MainPictureBox.Image = image;
+                if ((int)color_matching_numeric.Value != 1)
+                {
+                    int color_pixel = (int)color_matching_numeric.Value;
+                    image = new ColorMatchingFilter().apply(image, new Rectangle(0, 0, image.Width + 2 * color_pixel,
+                        image.Height + 2 * color_pixel), color_pixel);    
+                }
+                
 
+                MainPictureBox.Image = image;
             }
             else
             {

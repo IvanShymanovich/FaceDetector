@@ -12,7 +12,7 @@ namespace FaceDetector.Filter
 {
     class ContrastFilter
     {
-        public Bitmap ApplyContrast(Bitmap image, Rectangle rectangle, int contrast_count)
+        public Bitmap apply(Bitmap image, Rectangle rectangle, int contrast_count)
         {
             if (contrast_count == 100)
                 return image;
@@ -61,6 +61,46 @@ namespace FaceDetector.Filter
             if (result > 255)
                 result = 255;
             return result;
+        }
+
+        public Bitmap apply2(Bitmap image, Rectangle rectangle, int contrast_count)
+        {
+            int lAB = 0;
+            for (int y=0; y<image.Height; y++)
+            for (int x = 0; x < image.Width; x++)
+            {
+                Color pixel = image.GetPixel(x, y);
+	            
+	            lAB += (int)(pixel.R * 0.299 + pixel.G * 0.587 + pixel.B* 0.114);
+            }
+
+            //средняя яркость 
+            lAB /= image.Height * image.Width;   
+
+            // для каждой яркости производим преобразование
+            int[] array = new int[256];
+             double k = 1.0 + contrast_count / 100.0;
+             for (int i = 0; i < 256; i++)
+            {
+	            int delta = (int)i - lAB;
+	            int temp  = (int)(lAB + k *delta);
+
+	            if (temp < 0)
+		            temp = 0;
+
+	            if (temp >= 255)
+		            temp = 255;
+	            array[i] = temp;
+            }
+
+            for (int y = 0; y < image.Height; y++)
+                for (int x = 0; x < image.Width; x++)
+                {
+                    Color pixel = image.GetPixel(x, y);
+                    image.SetPixel(x, y, Color.FromArgb(array[pixel.R], array[pixel.G], array[pixel.B]));
+
+                }
+            return image;
         }
     }
 }
