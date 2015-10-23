@@ -19,9 +19,6 @@ namespace FaceDetector
     public partial class MainForm : Form
     {
         private Bitmap image;
-        private int old_green_numeric = 6;
-        private int old_red_numeric = 6;
-        private int old_blue_numeric = 6;
         /// <summary>
         /// Constructor w/o parameters.
         /// </summary>
@@ -54,26 +51,24 @@ namespace FaceDetector
         {
             if (image != null)
             {
-                //MedianFilter medianFilter = new MedianFilter(Image, (int) medianUpDown.Value);
 
-                //MainPictureBox.Image = new MedianFilter().ApplyMedianFilter(Image, (int)medianUpDown.Value);
-                image = new GaussianBlurFilter().ApplyGaussianBlur(image,
-                    new Rectangle(0, 0, image.Width, image.Height), (int)medianUpDown.Value);
-                if (contrast_textBox.Text != "100")
+                if (MedianFilterCB.Checked) 
+                    image = new MedianFilter().ApplyMedianFilter(image, (int)medianUpDown.Value);
+                if (GaussianBlurFilterCB.Checked)
+                    image = new GaussianBlurFilter().ApplyGaussianBlur(image,
+                        new Rectangle(0, 0, image.Width, image.Height), (int)gaussianUpDown.Value);
+                
+                if (ContrastCB.Checked && contrast_textBox.Text != "100")
                 {
                     int percent = Int32.Parse(contrast_textBox.Text);
                     image = new ContrastFilter().apply2(image, new Rectangle(0, 0, image.Width, image.Height), percent);
                     contrast_textBox.Text = "100";
 
                 }
-                if ((int)red_numeric.Value != old_green_numeric | green_numeric.Value!=old_green_numeric |
-                    old_red_numeric!=blueNumeric.Value)
+                if (ColorMatchingCB.Checked)
                 {
                     image = new ColorMatchingFilter().apply(image, (int)red_numeric.Value, (int)green_numeric.Value, 
                         (int)blueNumeric.Value);
-                    old_green_numeric = (int)red_numeric.Value;
-                    old_green_numeric = (int)green_numeric.Value;
-                    old_red_numeric = (int)blueNumeric.Value;
                 }
                 
 
@@ -83,26 +78,6 @@ namespace FaceDetector
             {
                 MessageBox.Show("There is no image to process. Load it and try again.");
             }
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void color_matching_label_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
         }
 
     }
