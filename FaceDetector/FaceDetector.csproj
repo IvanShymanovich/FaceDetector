@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,7 @@
     <Compile Include="Filter\Contrast.cs" />
     <Compile Include="Filter\GaussianBlurFilter.cs" />
     <Compile Include="Filter\MedianFilter.cs" />
+    <Compile Include="Filter\ViolaJones.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
