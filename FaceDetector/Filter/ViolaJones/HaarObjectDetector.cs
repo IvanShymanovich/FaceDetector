@@ -160,19 +160,11 @@ namespace FaceDetector.ViolaJones
         /// <summary>
         ///   Performs object detection on the given frame.
         /// </summary>
-        public Rectangle[] ProcessFrame(Bitmap frame)
-        {
-            return ProcessFrame(UnmanagedImage.FromManagedImage(frame));
-        }
-
-        /// <summary>
-        ///   Performs object detection on the given frame.
-        /// </summary>
-        public Rectangle[] ProcessFrame(UnmanagedImage image)
+        public Rectangle[] ProcessFrame(Bitmap image)
         {
             // Creates an integral image representation of the frame
             IntegralImage2 integralImage = IntegralImage2.FromBitmap(
-                image, channel, classifier.Cascade.HasTiltedFeatures);
+                UnmanagedImage.FromManagedImage(image), channel, classifier.Cascade.HasTiltedFeatures);
 
             // Creates a new list of detected objects.
             this.detectedObjects.Clear();
