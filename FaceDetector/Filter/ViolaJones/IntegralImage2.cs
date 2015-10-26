@@ -1,10 +1,11 @@
 ﻿namespace FaceDetector.ViolaJones
 {
     using System;
-    using System.Drawing;
     using System.Drawing.Imaging;
     using System.Runtime.InteropServices;
     using AForge.Imaging;
+
+
 
     /// <summary>
     ///   Joint representation of both Integral Image and Squared Integral Image.
@@ -53,33 +54,6 @@
         }
 
         /// <summary>
-        ///   Gets the Integral Image for values' sum.
-        /// </summary>
-        /// 
-        public int[,] Image
-        {
-            get { return nSumImage; }
-        }
-
-        /// <summary>
-        ///   Gets the Integral Image for values' squared sum.
-        /// </summary>
-        /// 
-        public int[,] Squared
-        {
-            get { return sSumImage; }
-        }
-
-        /// <summary>
-        ///   Gets the Integral Image for tilted values' sum.
-        /// </summary>
-        /// 
-        public int[,] Rotated
-        {
-            get { return tSumImage; }
-        }
-
-        /// <summary>
         ///   Constructs a new Integral image of the given size.
         /// </summary>
         /// 
@@ -111,76 +85,10 @@
         }
 
         /// <summary>
-        ///   Constructs a new Integral image from a Bitmap image.
-        /// </summary>
-        /// 
-        public static IntegralImage2 FromBitmap(Bitmap image, int channel)
-        {
-            return FromBitmap(image, channel, false);
-        }
-
-        /// <summary>
-        ///   Constructs a new Integral image from a Bitmap image.
-        /// </summary>
-        /// 
-        public static IntegralImage2 FromBitmap(Bitmap image, int channel, bool computeTilted)
-        {
-            // check image format
-            if (!(image.PixelFormat == PixelFormat.Format8bppIndexed ||
-                image.PixelFormat == PixelFormat.Format24bppRgb ||
-                image.PixelFormat == PixelFormat.Format32bppArgb))
-            {
-                throw new UnsupportedImageFormatException("Only grayscale and 24 bpp RGB images are supported.");
-            }
-
-
-            // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-
-            // process the image
-            IntegralImage2 im = FromBitmap(imageData, channel, computeTilted);
-
-            // unlock image
-            image.UnlockBits(imageData);
-
-            return im;
-        }
-
-        /// <summary>
-        ///   Constructs a new Integral image from a BitmapData image.
-        /// </summary>
-        /// 
-        public static IntegralImage2 FromBitmap(BitmapData imageData, int channel)
-        {
-            return FromBitmap(new UnmanagedImage(imageData), channel);
-        }
-
-        /// <summary>
-        ///   Constructs a new Integral image from a BitmapData image.
-        /// </summary>
-        /// 
-        public static IntegralImage2 FromBitmap(BitmapData imageData, int channel, bool computeTilted)
-        {
-            return FromBitmap(new UnmanagedImage(imageData), channel, computeTilted);
-        }
-
-        /// <summary>
         ///   Constructs a new Integral image from an unmanaged image.
         /// </summary>
         /// 
-        public static IntegralImage2 FromBitmap(UnmanagedImage image, int channel)
-        {
-            return FromBitmap(image, channel, false);
-        }
-
-        /// <summary>
-        ///   Constructs a new Integral image from an unmanaged image.
-        /// </summary>
-        /// 
-        public static IntegralImage2 FromBitmap(UnmanagedImage image, int channel, bool computeTilted
-            /*, TODO: Rectangle roi*/)
+        public static IntegralImage2 FromBitmap(UnmanagedImage image, int channel, bool computeTilted)
         {
 
             // check image format
