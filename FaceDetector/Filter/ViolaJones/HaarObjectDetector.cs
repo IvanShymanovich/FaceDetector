@@ -1,47 +1,14 @@
-﻿// Accord Vision Library
-// The Accord.NET Framework (LGPL) 
-// http://accord.googlecode.com
-//
-// Copyright © César Souza, 2009-2012
-// cesarsouza at gmail.com
-//
-// Copyright © Masakazu Ohtsuka, 2008
-//   This work is partially based on the original Project Marilena code,
-//   distributed under a 2-clause BSD License. Details are listed below.
-//
-//
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-//
-//   * Redistribution's of source code must retain the above copyright notice,
-//     this list of conditions and the following disclaimer.
-//
-//   * Redistribution's in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation
-//     and/or other materials provided with the distribution.
-//
-// This software is provided by the copyright holders and contributors "as is" and
-// any express or implied warranties, including, but not limited to, the implied
-// warranties of merchantability and fitness for a particular purpose are disclaimed.
-// In no event shall the Intel Corporation or contributors be liable for any direct,
-// indirect, incidental, special, exemplary, or consequential damages
-// (including, but not limited to, procurement of substitute goods or services;
-// loss of use, data, or profits; or business interruption) however caused
-// and on any theory of liability, whether in contract, strict liability,
-// or tort (including negligence or otherwise) arising in any way out of
-// the use of this software, even if advised of the possibility of such damage.
-//
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading.Tasks;
+using AForge.Imaging;
+using System.Collections.Concurrent;
+using FaceDetector.ViolaJones.Cascade;
 
-namespace FaceDetector.Detection
+
+namespace FaceDetector.ViolaJones
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Threading.Tasks;
-    //using Accord.Imaging;
-    using AForge.Imaging;
-    using System.Collections.Concurrent;
-
     /// <summary>
     ///   Object detector options for the search procedure.
     /// </summary>
@@ -94,38 +61,7 @@ namespace FaceDetector.Detection
     /// <summary>
     ///   Viola-Jones Object Detector based on Haar-like features.
     /// </summary>
-    /// <remarks>
-    /// 
-    /// <para>
-    ///   The Viola-Jones object detection framework is the first object detection framework
-    ///   to provide competitive object detection rates in real-time proposed in 2001 by Paul
-    ///   Viola and Michael Jones. Although it can be trained to detect a variety of object
-    ///   classes, it was motivated primarily by the problem of face detection.</para>
-    ///   
-    /// <para>
-    ///   The implementation of this code has used Viola and Jones' original publication, the
-    ///   OpenCV Library and the Marilena Project as reference. OpenCV is released under a BSD
-    ///   license, it is free for both academic and commercial use. Please be aware that some
-    ///   particular versions of the Haar object detection framework are patented by Viola and
-    ///   Jones and may be subject to restrictions for use in commercial applications. The code
-    ///   has been implemented with full support for tilted Haar features from the ground up.</para>
-    ///   
-    ///  <para>
-    ///     References:
-    ///     <list type="bullet">
-    ///       <item><description>
-    ///         <a href="http://www.cs.utexas.edu/~grauman/courses/spring2007/395T/papers/viola_cvpr2001.pdf">
-    ///         Viola, P. and Jones, M. (2001). Rapid Object Detection using a Boosted Cascade
-    ///         of Simple Features.</a></description></item>
-    ///       <item><description>
-    ///         <a href="http://en.wikipedia.org/wiki/Viola-Jones_object_detection_framework">
-    ///         http://en.wikipedia.org/wiki/Viola-Jones_object_detection_framework</a>
-    ///       </description></item>
-    ///     </list>
-    ///   </para>
-    /// </remarks>
-    /// 
-    public class HaarObjectDetector : IObjectDetector
+    public class HaarObjectDetector 
     {
 
         private List<Rectangle> detectedObjects;
@@ -164,76 +100,29 @@ namespace FaceDetector.Detection
         ///   <see cref="Cascades.FaceHaarCascade"/>.
         /// </param>
         /// 
-        public HaarObjectDetector(HaarCascade cascade)
-            : this(cascade, 15) { }
+        public HaarObjectDetector(HaarCascade cascade) : this(cascade, 15) { }
 
         /// <summary>
         ///   Constructs a new Haar object detector.
         /// </summary>
-        /// <param name="cascade">
-        ///   The <see cref="HaarCascade"/> to use in the detector's classifier.
-        ///   For the default face cascade, please take a look on
-        ///   <see cref="Cascades.FaceHaarCascade"/>.
-        /// </param>
-        /// <param name="minSize">Minimum window size to consider when searching
-        /// objects. Default value is <c>15</c>.</param>
-        /// 
         public HaarObjectDetector(HaarCascade cascade, int minSize)
             : this(cascade, minSize, ObjectDetectorSearchMode.NoOverlap) { }
 
         /// <summary>
         ///   Constructs a new Haar object detector.
         /// </summary>
-        /// <param name="cascade">
-        ///   The <see cref="HaarCascade"/> to use in the detector's classifier.
-        ///   For the default face cascade, please take a look on
-        ///   <see cref="Cascades.FaceHaarCascade"/>.
-        /// </param>
-        /// <param name="minSize">Minimum window size to consider when searching
-        /// objects. Default value is <c>15</c>.</param>
-        /// <param name="searchMode">The <see cref="ObjectDetectorSearchMode"/> to use
-        /// during search. Please see documentation of <see cref="ObjectDetectorSearchMode"/>
-        /// for details. Default value is <see cref="ObjectDetectorSearchMode.NoOverlap"/></param>
-        /// 
         public HaarObjectDetector(HaarCascade cascade, int minSize, ObjectDetectorSearchMode searchMode)
             : this(cascade, minSize, searchMode, 1.2f) { }
 
         /// <summary>
         ///   Constructs a new Haar object detector.
         /// </summary>
-        /// <param name="cascade">
-        ///   The <see cref="HaarCascade"/> to use in the detector's classifier.
-        ///   For the default face cascade, please take a look on
-        ///   <see cref="Cascades.FaceHaarCascade"/>.
-        /// </param>
-        /// <param name="minSize">Minimum window size to consider when searching
-        /// objects. Default value is <c>15</c>.</param>
-        /// <param name="searchMode">The <see cref="ObjectDetectorSearchMode"/> to use
-        /// during search. Please see documentation of <see cref="ObjectDetectorSearchMode"/>
-        /// for details. Default value is <see cref="ObjectDetectorSearchMode.NoOverlap"/></param>
-        /// <param name="scaleFactor">The re-scaling factor to use when re-scaling the window during search.</param>
-        /// 
         public HaarObjectDetector(HaarCascade cascade, int minSize, ObjectDetectorSearchMode searchMode, float scaleFactor)
             : this(cascade, minSize, searchMode, scaleFactor, ObjectDetectorScalingMode.SmallerToGreater) { }
 
         /// <summary>
         ///   Constructs a new Haar object detector.
         /// </summary>
-        /// <param name="cascade">
-        ///   The <see cref="HaarCascade"/> to use in the detector's classifier.
-        ///   For the default face cascade, please take a look on
-        ///   <see cref="Cascades.FaceHaarCascade"/>.
-        /// </param>
-        /// <param name="minSize">Minimum window size to consider when searching
-        /// objects. Default value is <c>15</c>.</param>
-        /// <param name="searchMode">The <see cref="ObjectDetectorSearchMode"/> to use
-        /// during search. Please see documentation of <see cref="ObjectDetectorSearchMode"/>
-        /// for details. Default is <see cref="ObjectDetectorSearchMode.NoOverlap"/>.</param>
-        /// <param name="scaleFactor">The scaling factor to rescale the window
-        /// during search. Default value is <c>1.2f</c>.</param>
-        /// <param name="scalingMode">The <see cref="ObjectDetectorScalingMode"/> to use
-        /// when re-scaling the search window during search. Default is <see cref="ObjectDetectorScalingMode.SmallerToGreater"/>.</param>
-        /// 
         public HaarObjectDetector(HaarCascade cascade, int minSize, ObjectDetectorSearchMode searchMode, float scaleFactor,
             ObjectDetectorScalingMode scalingMode)
         {
@@ -255,15 +144,11 @@ namespace FaceDetector.Detection
         ///   Gets or sets a value indicating whether this <see cref="HaarObjectDetector"/>
         ///   should scan the image using multiple threads.
         /// </summary>
-        /// 
-        /// <value><c>true</c> to use multiple threads; otherwise, <c>false</c>.</value>
-        /// 
         public bool UseParallelProcessing { get; set; }
 
         /// <summary>
         ///   Minimum window size to consider when searching objects.
         /// </summary>
-        /// 
         public Size MinSize
         {
             get { return minSize; }
@@ -273,7 +158,6 @@ namespace FaceDetector.Detection
         /// <summary>
         ///   Maximum window size to consider when searching objects.
         /// </summary>
-        /// 
         public Size MaxSize
         {
             get { return maxSize; }
@@ -283,7 +167,6 @@ namespace FaceDetector.Detection
         /// <summary>
         ///   Gets or sets the color channel to use when processing color images. 
         /// </summary>
-        /// 
         public int Channel
         {
             get { return channel; }
@@ -293,7 +176,6 @@ namespace FaceDetector.Detection
         /// <summary>
         ///   Gets or sets the scaling factor to rescale the window during search.
         /// </summary>
-        /// 
         public float ScalingFactor
         {
             get { return factor; }
@@ -310,7 +192,6 @@ namespace FaceDetector.Detection
         /// <summary>
         ///   Gets or sets the desired searching method.
         /// </summary>
-        /// 
         public ObjectDetectorSearchMode SearchMode
         {
             get { return searchMode; }
@@ -320,7 +201,6 @@ namespace FaceDetector.Detection
         /// <summary>
         ///   Gets or sets the desired scaling method.
         /// </summary>
-        /// 
         public ObjectDetectorScalingMode ScalingMode
         {
             get { return scalingMode; }
@@ -337,7 +217,6 @@ namespace FaceDetector.Detection
         /// <summary>
         ///   Gets the detected objects bounding boxes.
         /// </summary>
-        /// 
         public Rectangle[] DetectedObjects
         {
             get { return detectedObjects.ToArray(); }
@@ -355,10 +234,6 @@ namespace FaceDetector.Detection
         ///   Gets how many frames the object has
         ///   been detected in a steady position.
         /// </summary>
-        /// <value>
-        ///   The number of frames the detected object
-        ///   has been in a steady position.</value>
-        ///   
         public int Steady { get; private set; }
 
         #endregion
@@ -367,7 +242,6 @@ namespace FaceDetector.Detection
         /// <summary>
         ///   Performs object detection on the given frame.
         /// </summary>
-        /// 
         public Rectangle[] ProcessFrame(Bitmap frame)
         {
             return ProcessFrame(UnmanagedImage.FromManagedImage(frame));
@@ -376,7 +250,6 @@ namespace FaceDetector.Detection
         /// <summary>
         ///   Performs object detection on the given frame.
         /// </summary>
-        /// 
         public Rectangle[] ProcessFrame(UnmanagedImage image)
         {
             // Creates an integral image representation of the frame
@@ -611,8 +484,5 @@ namespace FaceDetector.Detection
             }
             return false;
         }
-
-
     }
-
 }

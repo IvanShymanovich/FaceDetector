@@ -1,52 +1,16 @@
-﻿// Accord Vision Library
-// The Accord.NET Framework (LGPL)
-// http://accord.googlecode.com
-//
-// Copyright © César Souza, 2009-2012
-// cesarsouza at gmail.com
-//
-//    This library is free software; you can redistribute it and/or
-//    modify it under the terms of the GNU Lesser General Public
-//    License as published by the Free Software Foundation; either
-//    version 2.1 of the License, or (at your option) any later version.
-//
-//    This library is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//    Lesser General Public License for more details.
-//
-//    You should have received a copy of the GNU Lesser General Public
-//    License along with this library; if not, write to the Free Software
-//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
+﻿using System;
 
-namespace FaceDetector.Detection
+namespace FaceDetector.ViolaJones.Cascade
 {
-    using System;
-    using System.Xml;
-    using System.Xml.Serialization;
-    //using Accord.Imaging;
-
     /// <summary>
     ///   Haar Cascade Classifier Stage.
     /// </summary>
-    /// 
-    /// <remarks>
-    ///   A Haar Cascade Classifier is composed of several stages. Each stage
-    ///   contains a set of classifier trees used in the decisioning process.
-    /// </remarks>
-    /// 
-    [Serializable]
-    [XmlRoot("_")]
     public class HaarCascadeStage : ICloneable
     {
         /// <summary>
         ///   Gets or sets the feature trees and its respective
         ///   feature tree nodes which compose this stage.
         /// </summary>
-        [XmlArray("trees")]
-        [XmlArrayItem("_")]
-        [XmlArrayItem("_", NestingLevel = 1)]
         public HaarFeatureNode[][] Trees { get; set; }
 
         /// <summary>
@@ -54,27 +18,22 @@ namespace FaceDetector.Detection
         ///   i.e. the minimum value the classifiers should output
         ///   to decide if the image contains the object or not.
         /// </summary>
-        [XmlElement("stage_threshold")]
         public double Threshold { get; set; }
 
         /// <summary>
         ///   Gets the index of the parent stage from this stage.
         /// </summary>
-        [XmlElement("parent")]
         public int ParentIndex { get; set; }
 
         /// <summary>
         ///   Gets the index of the next stage from this stage.
         /// </summary>
-        [XmlElement("next")]
         public int NextIndex { get; set; }
 
         /// <summary>
         ///   Constructs a new Haar Cascade Stage.
         /// </summary>
-        public HaarCascadeStage()
-        {
-        }
+        public HaarCascadeStage() { }
 
         /// <summary>
         ///   Constructs a new Haar Cascade Stage.
@@ -82,16 +41,6 @@ namespace FaceDetector.Detection
         public HaarCascadeStage(double threshold)
         {
             this.Threshold = threshold;
-        }
-
-        /// <summary>
-        ///   Constructs a new Haar Cascade Stage.
-        /// </summary>
-        public HaarCascadeStage(double threshold, int parentIndex, int nextIndex)
-        {
-            this.Threshold = threshold;
-            this.ParentIndex = parentIndex;
-            this.NextIndex = nextIndex;
         }
 
         /// <summary>
@@ -177,22 +126,5 @@ namespace FaceDetector.Detection
 
             return r;
         }
-
-    }
-
-    /// <summary>
-    ///   Haar Cascade Serialization Root. This class is used
-    ///   only for XML serialization/deserialization.
-    /// </summary>
-    /// 
-    [Serializable]
-    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "stages")]
-    public class HaarCascadeSerializationObject
-    {
-        /// <summary>
-        ///   The stages retrieved after deserialization.
-        /// </summary>
-        [XmlElement("_")]
-        public FaceDetector.Detection.HaarCascadeStage[] Stages { get; set; }
     }
 }

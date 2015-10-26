@@ -34,16 +34,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.dll</HintPath>
+      <HintPath>packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Imaging.dll</HintPath>
+      <HintPath>packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Math.dll</HintPath>
+      <HintPath>packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,23 +57,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Detection\Haar Cascade\Default\FaceHaarCascade.cs" />
-    <Compile Include="Detection\Haar Cascade\Default\NoseHaarCascade.cs" />
-    <Compile Include="Detection\Haar Cascade\HaarCascade.cs" />
-    <Compile Include="Detection\Haar Cascade\HaarCascadeStage.cs" />
-    <Compile Include="Detection\Haar Cascade\HaarCascadeWriter.cs" />
-    <Compile Include="Detection\Haar Cascade\HaarClassifier.cs" />
-    <Compile Include="Detection\Haar Cascade\HaarFeature.cs" />
-    <Compile Include="Detection\Haar Cascade\HaarFeatureNode.cs" />
-    <Compile Include="Detection\Haar Cascade\HaarRectangle.cs" />
-    <Compile Include="Detection\HaarObjectDetector.cs" />
-    <Compile Include="Detection\IObjectDetector.cs" />
+    <Compile Include="Filter\ViolaJones\Cascade\FaceHaarCascade.cs" />
+    <Compile Include="Filter\ViolaJones\Cascade\HaarCascade.cs" />
+    <Compile Include="Filter\ViolaJones\Cascade\HaarCascadeStage.cs" />
+    <Compile Include="Filter\ViolaJones\HaarClassifier.cs" />
+    <Compile Include="Filter\ViolaJones\Cascade\HaarFeature.cs" />
+    <Compile Include="Filter\ViolaJones\Cascade\HaarFeatureNode.cs" />
+    <Compile Include="Filter\ViolaJones\HaarRectangle.cs" />
+    <Compile Include="Filter\ViolaJones\HaarObjectDetector.cs" />
     <Compile Include="Filter\ColorMatchingFilter.cs" />
     <Compile Include="Filter\Contrast.cs" />
     <Compile Include="Filter\GaussianBlurFilter.cs" />
     <Compile Include="Filter\MedianFilter.cs" />
     <Compile Include="Filter\ViolaJones.cs" />
-    <Compile Include="IntegralImage2.cs" />
+    <Compile Include="Filter\ViolaJones\IntegralImage2.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,8 +79,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RectanglesMarker.cs" />
-    <Compile Include="Tools.cs" />
+    <Compile Include="Filter\ViolaJones\RectanglesMarker.cs" />
+    <Compile Include="Filter\ViolaJones\Tools.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,6 +93,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

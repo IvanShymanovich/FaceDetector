@@ -1,44 +1,12 @@
-﻿// Accord Vision Library
-// The Accord.NET Framework (LGPL)
-// http://accord.googlecode.com
-//
-// Copyright © César Souza, 2009-2012
-// cesarsouza at gmail.com
-//
-//    This library is free software; you can redistribute it and/or
-//    modify it under the terms of the GNU Lesser General Public
-//    License as published by the Free Software Foundation; either
-//    version 2.1 of the License, or (at your option) any later version.
-//
-//    This library is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//    Lesser General Public License for more details.
-//
-//    You should have received a copy of the GNU Lesser General Public
-//    License along with this library; if not, write to the Free Software
-//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
+﻿using System;
 
-namespace FaceDetector.Detection
+
+namespace FaceDetector.ViolaJones.Cascade
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Xml;
-    using System.Xml.Schema;
-    using System.Xml.Serialization;
-    //using Accord.Imaging;
-
     /// <summary>
     ///   Rectangular Haar-like feature container.
     /// </summary>
-    /// <remarks>
-    ///   References:
-    ///   - http://en.wikipedia.org/wiki/Haar-like_features#Rectangular_Haar-like_features
-    /// </remarks>
-    /// 
-    [Serializable]
-    public sealed class HaarFeature : IXmlSerializable, ICloneable
+    public sealed class HaarFeature : ICloneable
     {
 
         /// <summary>
@@ -61,24 +29,6 @@ namespace FaceDetector.Detection
         public HaarFeature()
         {
             this.Rectangles = new HaarRectangle[2];
-        }
-
-        /// <summary>
-        ///   Constructs a new Haar-like feature.
-        /// </summary>
-        /// 
-        public HaarFeature(params HaarRectangle[] rectangles)
-        {
-            this.Rectangles = rectangles;
-        }
-
-        /// <summary>
-        ///   Constructs a new Haar-like feature.
-        /// </summary>
-        /// 
-        public HaarFeature(params int[][] rectangles)
-            : this(false, rectangles)
-        {
         }
 
         /// <summary>
@@ -160,49 +110,6 @@ namespace FaceDetector.Detection
             }
         }
 
-
-        #region IXmlSerializable Members
-
-        XmlSchema IXmlSerializable.GetSchema()
-        {
-            throw new NotSupportedException();
-        }
-
-        void IXmlSerializable.ReadXml(XmlReader reader)
-        {
-            reader.ReadStartElement("feature");
-
-            reader.ReadToFollowing("rects");
-            reader.ReadToFollowing("_");
-
-            var rec = new List<HaarRectangle>();
-            while (reader.Name == "_")
-            {
-                string str = reader.ReadElementContentAsString();
-                rec.Add(HaarRectangle.Parse(str));
-
-                while (reader.Name != "_" && reader.Name != "tilted" &&
-                    reader.NodeType != XmlNodeType.EndElement)
-                    reader.Read();
-            }
-
-            Rectangles = rec.ToArray();
-
-            reader.ReadToFollowing("tilted", reader.BaseURI);
-            Tilted = reader.ReadElementContentAsInt() == 1;
-
-            reader.ReadEndElement();
-        }
-
-        void IXmlSerializable.WriteXml(XmlWriter writer)
-        {
-            throw new NotSupportedException();
-        }
-
-        #endregion
-
-
-
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
@@ -225,7 +132,5 @@ namespace FaceDetector.Detection
 
             return r;
         }
-
     }
-
 }
