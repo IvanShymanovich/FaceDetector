@@ -7,7 +7,6 @@ namespace FaceDetector.ViolaJones.Cascade
     /// <summary>
     ///   Default Face Haar Cascade for using with Haar Classifiers.
     /// </summary>
-    [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode")]
     public class FaceHaarCascade : HaarCascade
     {
 
@@ -15,7 +14,6 @@ namespace FaceDetector.ViolaJones.Cascade
         ///   Hardcoded partial transcription of <i>haarcascade_frontalface_alt.xml</i>
         ///   based on code by Mario Klingemann.
         /// </summary>
-        [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode")]
         public FaceHaarCascade() : base(20,20)
         {
 

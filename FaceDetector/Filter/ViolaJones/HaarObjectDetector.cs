@@ -70,9 +70,6 @@ namespace FaceDetector.ViolaJones
         private ObjectDetectorSearchMode searchMode = ObjectDetectorSearchMode.NoOverlap;
         private ObjectDetectorScalingMode scalingMode = ObjectDetectorScalingMode.GreaterToSmaller;
 
-        // TODO: Support ROI
-        //  private Rectangle searchWindow;
-
         private Size minSize = new Size(15, 15);
         private Size maxSize = new Size(500, 500);
         private float factor = 1.2f;
@@ -88,8 +85,6 @@ namespace FaceDetector.ViolaJones
         private int lastHeight;
         private float[] steps;
 
-
-        #region Constructors
 
         /// <summary>
         ///   Constructs a new Haar object detector.
@@ -136,15 +131,6 @@ namespace FaceDetector.ViolaJones
             this.baseWidth = cascade.Width;
             this.baseHeight = cascade.Height;
         }
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        ///   Gets or sets a value indicating whether this <see cref="HaarObjectDetector"/>
-        ///   should scan the image using multiple threads.
-        /// </summary>
-        public bool UseParallelProcessing { get; set; }
 
         /// <summary>
         ///   Minimum window size to consider when searching objects.
@@ -236,8 +222,6 @@ namespace FaceDetector.ViolaJones
         /// </summary>
         public int Steady { get; private set; }
 
-        #endregion
-
 
         /// <summary>
         ///   Performs object detection on the given frame.
@@ -304,96 +288,63 @@ namespace FaceDetector.ViolaJones
                 int xEnd = width - window.Width;
                 int yEnd = height - window.Height;
 
-                // Check if we should run in parallel or sequential
-                if (!UseParallelProcessing)
+                // Parallel mode. Scan the integral image searching
+                // for objects in the window with parallelization.
+                ConcurrentBag<Rectangle> bag = new ConcurrentBag<Rectangle>();
+
+                int numSteps = (int)Math.Ceiling((double)yEnd / yStep);
+
+
+                //use only parallelism
+                // For each pixel in the window column
+                Parallel.For(0, numSteps, (j, options) =>
                 {
-                    // Sequential mode. Scan the integral image searching
-                    // for objects in the window without parallelization.
+                    int y = j * yStep;
 
-                    // For every pixel in the window column
-                    for (int y = 0; y < yEnd; y += yStep)
+                    // Create a local window reference
+                    Rectangle localWindow = window;
+
+                    localWindow.Y = y;
+
+                    // For each pixel in the window row
+                    for (int x = 0; x < xEnd; x += xStep)
                     {
-                        window.Y = y;
+                        if (options.ShouldExitCurrentIteration) return;
 
-                        // For every pixel in the window row
-                        for (int x = 0; x < xEnd; x += xStep)
+                        localWindow.X = x;
+
+                        // Try to detect and object inside the window
+                        if (classifier.Compute(integralImage, localWindow))
                         {
-                            window.X = x;
+                            // an object has been detected
+                            bag.Add(localWindow);
 
-                            if (searchMode == ObjectDetectorSearchMode.NoOverlap && overlaps(window))
-                                continue; // We have already detected something here, moving along.
-
-                            // Try to detect and object inside the window
-                            if (classifier.Compute(integralImage, window))
-                            {
-                                // an object has been detected
-                                detectedObjects.Add(window);
-
-                                if (searchMode == ObjectDetectorSearchMode.Single)
-                                    goto EXIT; // Stop on first object found
-                            }
+                            if (searchMode == ObjectDetectorSearchMode.Single)
+                                options.Stop();
                         }
+                    }
+                });
+
+                // If required, avoid adding overlapping objects at
+                // the expense of extra computation. Otherwise, only
+                // add objects to the detected objects collection.
+                if (searchMode == ObjectDetectorSearchMode.NoOverlap)
+                {
+                    foreach (Rectangle obj in bag)
+                        if (!overlaps(obj)) detectedObjects.Add(obj);
+                }
+                else if (searchMode == ObjectDetectorSearchMode.Single)
+                {
+                    if (bag.TryPeek(out window))
+                    {
+                        detectedObjects.Add(window);
+                        goto EXIT;
                     }
                 }
-
                 else
                 {
-                    // Parallel mode. Scan the integral image searching
-                    // for objects in the window with parallelization.
-                    ConcurrentBag<Rectangle> bag = new ConcurrentBag<Rectangle>();
-
-                    int numSteps = (int)Math.Ceiling((double)yEnd / yStep);
-
-                    // For each pixel in the window column
-                    Parallel.For(0, numSteps, (j, options) =>
-                    {
-                        int y = j * yStep;
-
-                        // Create a local window reference
-                        Rectangle localWindow = window;
-
-                        localWindow.Y = y;
-
-                        // For each pixel in the window row
-                        for (int x = 0; x < xEnd; x += xStep)
-                        {
-                            if (options.ShouldExitCurrentIteration) return;
-
-                            localWindow.X = x;
-
-                            // Try to detect and object inside the window
-                            if (classifier.Compute(integralImage, localWindow))
-                            {
-                                // an object has been detected
-                                bag.Add(localWindow);
-
-                                if (searchMode == ObjectDetectorSearchMode.Single)
-                                    options.Stop();
-                            }
-                        }
-                    });
-
-                    // If required, avoid adding overlapping objects at
-                    // the expense of extra computation. Otherwise, only
-                    // add objects to the detected objects collection.
-                    if (searchMode == ObjectDetectorSearchMode.NoOverlap)
-                    {
-                        foreach (Rectangle obj in bag)
-                            if (!overlaps(obj)) detectedObjects.Add(obj);
-                    }
-                    else if (searchMode == ObjectDetectorSearchMode.Single)
-                    {
-                        if (bag.TryPeek(out window))
-                        {
-                            detectedObjects.Add(window);
-                            goto EXIT;
-                        }
-                    }
-                    else
-                    {
-                        foreach (Rectangle obj in bag)
-                            detectedObjects.Add(obj);
-                    }
+                    foreach (Rectangle obj in bag)
+                        detectedObjects.Add(obj);
                 }
             }
 
@@ -454,7 +405,7 @@ namespace FaceDetector.ViolaJones
                 bool found = false;
                 foreach (Rectangle last in lastObjects)
                 {
-                    if (current.IsEqual(last, steadyThreshold))
+                    if (IsEqual(current, last, steadyThreshold))
                     {
                         found = true;
                         continue;
@@ -483,6 +434,18 @@ namespace FaceDetector.ViolaJones
                     return true;
             }
             return false;
+        }
+
+
+        /// <summary>
+        ///   Compares two rectangles for equality, considering an acceptance threshold.
+        /// </summary>
+        public static bool IsEqual(Rectangle objA, Rectangle objB, int threshold)
+        {
+            return (Math.Abs(objA.X - objB.X) < threshold) &&
+                   (Math.Abs(objA.Y - objB.Y) < threshold) &&
+                   (Math.Abs(objA.Width - objB.Width) < threshold) &&
+                   (Math.Abs(objA.Height - objB.Height) < threshold);
         }
     }
 }

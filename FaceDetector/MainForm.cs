@@ -60,24 +60,23 @@ namespace FaceDetector
                     image = new GaussianBlurFilter().ApplyGaussianBlur(image,
                         new Rectangle(0, 0, image.Width, image.Height), (int)gaussianUpDown.Value);
                 
-                /*if (ContrastCB.Checked && contrast_textBox.Text != "100")
+                if (ContrastCB.Checked && contrast_textBox.Text != "100")
                 {
                     int percent = Int32.Parse(contrast_textBox.Text);
                     image = new ContrastFilter().apply2(image, new Rectangle(0, 0, image.Width, image.Height), percent);
                     contrast_textBox.Text = "100";
 
                 }
-                if (ColorMatchingCB.Checked)
+                /*if (ColorMatchingCB.Checked)
                 {
                     image = new ColorMatchingFilter().apply(image, (int)red_numeric.Value, (int)green_numeric.Value, 
                         (int)blueNumeric.Value);
-                }
-                */
+                }*/
+                
 
                 detector.SearchMode = ObjectDetectorSearchMode.NoOverlap;
                 detector.ScalingMode = ObjectDetectorScalingMode.SmallerToGreater;
                 detector.ScalingFactor = 1.5f;
-                detector.UseParallelProcessing = true;
 
                 Rectangle[] objects = detector.ProcessFrame(image);
 

@@ -9,14 +9,6 @@
     /// <summary>
     ///   Joint representation of both Integral Image and Squared Integral Image.
     /// </summary>
-    /// 
-    /// <remarks>
-    ///   Using this representation, both structures can be created in a single pass
-    ///   over the data. This is interesting for real time applications. This class
-    ///   also accepts a channel parameter indicating the Integral Image should be
-    ///   computed using a specified color channel. This avoids costly conversions.
-    /// </remarks>
-    /// 
     public unsafe class IntegralImage2 : IDisposable
     {
 
@@ -359,15 +351,10 @@
             return tSum[a] + tSum[b] - tSum[c] - tSum[d];
         }
 
-
-
-        #region IDisposable Members
-
         /// <summary>
         ///   Performs application-defined tasks associated with freeing,
         ///   releasing, or resetting unmanaged resources.
         /// </summary>
-        /// 
         public void Dispose()
         {
             Dispose(true);
@@ -378,7 +365,6 @@
         ///   Releases unmanaged resources and performs other cleanup operations 
         ///   before the <see cref="IntegralImage2"/> is reclaimed by garbage collection.
         /// </summary>
-        /// 
         ~IntegralImage2()
         {
             Dispose(false);
@@ -387,11 +373,6 @@
         /// <summary>
         ///   Releases unmanaged and - optionally - managed resources
         /// </summary>
-        /// 
-        /// <param name="disposing"><c>true</c> to release both managed 
-        /// and unmanaged resources; <c>false</c> to release only unmanaged
-        /// resources.</param>
-        /// 
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -417,8 +398,5 @@
                 tSum = null;
             }
         }
-
-        #endregion
-
     }
 }
