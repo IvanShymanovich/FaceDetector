@@ -10,34 +10,6 @@ using FaceDetector.ViolaJones.Cascade;
 namespace FaceDetector.ViolaJones
 {
     /// <summary>
-    ///   Object detector options for the search procedure.
-    /// </summary>
-    /// 
-    public enum ObjectDetectorSearchMode
-    {
-        /// <summary>
-        ///   Entire image will be scanned.
-        /// </summary>
-        /// 
-        Default = 0,
-
-        /// <summary>
-        ///   Only a single object will be retrieved.
-        /// </summary>
-        /// 
-        Single,
-
-        /// <summary>
-        ///   If a object has already been detected inside an area,
-        ///   it will not be scanned twice for inner/overlapping objects.
-        /// </summary>
-        /// 
-        NoOverlap,
-
-        // TODO: Add mode for maximum/fixed number of faces
-    }
-
-    /// <summary>
     ///   Object detector options for window scaling.
     /// </summary>
     /// 
@@ -60,6 +32,8 @@ namespace FaceDetector.ViolaJones
 
     /// <summary>
     ///   Viola-Jones Object Detector based on Haar-like features.
+    ///   If a object has already been detected inside an area,
+    ///   it will not be scanned twice for inner/overlapping objects.
     /// </summary>
     public class HaarObjectDetector 
     {
@@ -67,7 +41,6 @@ namespace FaceDetector.ViolaJones
         private List<Rectangle> detectedObjects;
         private HaarClassifier classifier;
 
-        private ObjectDetectorSearchMode searchMode = ObjectDetectorSearchMode.NoOverlap;
         private ObjectDetectorScalingMode scalingMode = ObjectDetectorScalingMode.GreaterToSmaller;
 
         private Size minSize = new Size(15, 15);
@@ -95,39 +68,9 @@ namespace FaceDetector.ViolaJones
         ///   <see cref="Cascades.FaceHaarCascade"/>.
         /// </param>
         /// 
-        public HaarObjectDetector(HaarCascade cascade) : this(cascade, 15) { }
-
-        /// <summary>
-        ///   Constructs a new Haar object detector.
-        /// </summary>
-        public HaarObjectDetector(HaarCascade cascade, int minSize)
-            : this(cascade, minSize, ObjectDetectorSearchMode.NoOverlap) { }
-
-        /// <summary>
-        ///   Constructs a new Haar object detector.
-        /// </summary>
-        public HaarObjectDetector(HaarCascade cascade, int minSize, ObjectDetectorSearchMode searchMode)
-            : this(cascade, minSize, searchMode, 1.2f) { }
-
-        /// <summary>
-        ///   Constructs a new Haar object detector.
-        /// </summary>
-        public HaarObjectDetector(HaarCascade cascade, int minSize, ObjectDetectorSearchMode searchMode, float scaleFactor)
-            : this(cascade, minSize, searchMode, scaleFactor, ObjectDetectorScalingMode.SmallerToGreater) { }
-
-        /// <summary>
-        ///   Constructs a new Haar object detector.
-        /// </summary>
-        public HaarObjectDetector(HaarCascade cascade, int minSize, ObjectDetectorSearchMode searchMode, float scaleFactor,
-            ObjectDetectorScalingMode scalingMode)
-        {
+        public HaarObjectDetector(HaarCascade cascade) {
             this.classifier = new HaarClassifier(cascade);
-            this.minSize = new Size(minSize, minSize);
-            this.searchMode = searchMode;
-            this.ScalingMode = scalingMode;
-            this.factor = scaleFactor;
             this.detectedObjects = new List<Rectangle>();
-
             this.baseWidth = cascade.Width;
             this.baseHeight = cascade.Height;
         }
@@ -173,15 +116,6 @@ namespace FaceDetector.ViolaJones
                     steps = null;
                 }
             }
-        }
-
-        /// <summary>
-        ///   Gets or sets the desired searching method.
-        /// </summary>
-        public ObjectDetectorSearchMode SearchMode
-        {
-            get { return searchMode; }
-            set { searchMode = value; }
         }
 
         /// <summary>
@@ -295,7 +229,6 @@ namespace FaceDetector.ViolaJones
                 int numSteps = (int)Math.Ceiling((double)yEnd / yStep);
 
 
-                //use only parallelism
                 // For each pixel in the window column
                 Parallel.For(0, numSteps, (j, options) =>
                 {
@@ -318,32 +251,13 @@ namespace FaceDetector.ViolaJones
                         {
                             // an object has been detected
                             bag.Add(localWindow);
-
-                            if (searchMode == ObjectDetectorSearchMode.Single)
-                                options.Stop();
                         }
                     }
                 });
 
-                // If required, avoid adding overlapping objects at
-                // the expense of extra computation. Otherwise, only
-                // add objects to the detected objects collection.
-                if (searchMode == ObjectDetectorSearchMode.NoOverlap)
+                foreach (Rectangle obj in bag)
                 {
-                    foreach (Rectangle obj in bag)
-                        if (!overlaps(obj)) detectedObjects.Add(obj);
-                }
-                else if (searchMode == ObjectDetectorSearchMode.Single)
-                {
-                    if (bag.TryPeek(out window))
-                    {
-                        detectedObjects.Add(window);
-                        goto EXIT;
-                    }
-                }
-                else
-                {
-                    foreach (Rectangle obj in bag)
+                    if (!overlaps(obj))
                         detectedObjects.Add(obj);
                 }
             }

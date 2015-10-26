@@ -27,7 +27,7 @@ namespace FaceDetector
         {
             InitializeComponent();
             HaarCascade cascade = new FaceHaarCascade();
-            detector = new HaarObjectDetector(cascade, 30);
+            detector = new HaarObjectDetector(cascade);
         }
 
         /// <summary>
@@ -74,7 +74,6 @@ namespace FaceDetector
                 }*/
                 
 
-                detector.SearchMode = ObjectDetectorSearchMode.NoOverlap;
                 detector.ScalingMode = ObjectDetectorScalingMode.SmallerToGreater;
                 detector.ScalingFactor = 1.5f;
 
