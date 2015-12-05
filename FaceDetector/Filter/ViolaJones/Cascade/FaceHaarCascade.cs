@@ -10,10 +10,6 @@ namespace FaceDetector.ViolaJones.Cascade
     public class FaceHaarCascade : HaarCascade
     {
 
-        /// <summary>
-        ///   Hardcoded partial transcription of <i>haarcascade_frontalface_alt.xml</i>
-        ///   based on code by Mario Klingemann.
-        /// </summary>
         public FaceHaarCascade() : base(20,20)
         {
 
@@ -2276,7 +2272,6 @@ namespace FaceDetector.ViolaJones.Cascade
             nodes.Add(new[] { new HaarFeatureNode(0.0431624315679073, 0.4738228023052216, 0.6522961258888245, new int[] { 0, 0, 10, 6, -1 }, new int[] { 0, 0, 5, 3, 2 }, new int[] { 5, 3, 5, 3, 2 }) });
             stage.Trees = nodes.ToArray(); stages.Add(stage);
             #endregion
-
 
             Stages = stages.ToArray();
         }

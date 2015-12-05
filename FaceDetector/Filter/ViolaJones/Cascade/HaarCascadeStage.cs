@@ -7,6 +7,10 @@ namespace FaceDetector.ViolaJones.Cascade
     /// </summary>
     public class HaarCascadeStage : ICloneable
     {
+        private double p1;
+        private int p2;
+        private int p3;
+
         /// <summary>
         ///   Gets or sets the feature trees and its respective
         ///   feature tree nodes which compose this stage.
@@ -41,6 +45,14 @@ namespace FaceDetector.ViolaJones.Cascade
         public HaarCascadeStage(double threshold)
         {
             this.Threshold = threshold;
+        }
+
+        public HaarCascadeStage(double p1, int p2, int p3)
+        {
+            // TODO: Complete member initialization
+            this.p1 = p1;
+            this.p2 = p2;
+            this.p3 = p3;
         }
 
         /// <summary>

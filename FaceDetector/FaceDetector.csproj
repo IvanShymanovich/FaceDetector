@@ -57,9 +57,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Derivative.cs" />
+    <Compile Include="Face.cs" />
+    <Compile Include="FastBitmap.cs" />
+    <Compile Include="Filter\ViolaJones\Cascade\EyeHaarCascade.cs" />
     <Compile Include="Filter\ViolaJones\Cascade\FaceHaarCascade.cs" />
     <Compile Include="Filter\ViolaJones\Cascade\HaarCascade.cs" />
     <Compile Include="Filter\ViolaJones\Cascade\HaarCascadeStage.cs" />
+    <Compile Include="Filter\ViolaJones\Cascade\MouthHaarCascade.cs" />
+    <Compile Include="Filter\ViolaJones\Cascade\NoseHaarCascade.cs" />
     <Compile Include="Filter\ViolaJones\HaarClassifier.cs" />
     <Compile Include="Filter\ViolaJones\Cascade\HaarFeature.cs" />
     <Compile Include="Filter\ViolaJones\Cascade\HaarFeatureNode.cs" />
@@ -70,6 +76,7 @@
     <Compile Include="Filter\GaussianBlurFilter.cs" />
     <Compile Include="Filter\MedianFilter.cs" />
     <Compile Include="Filter\ViolaJones\IntegralImage2.cs" />
+    <Compile Include="Harries.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

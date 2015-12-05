@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.mainControlPanel = new System.Windows.Forms.Panel();
+            this.gaussianUpDown = new System.Windows.Forms.NumericUpDown();
             this.ContrastCB = new System.Windows.Forms.CheckBox();
             this.ColorMatchingCB = new System.Windows.Forms.CheckBox();
             this.GaussianBlurFilterCB = new System.Windows.Forms.CheckBox();
@@ -46,14 +47,13 @@
             this.LoadImageButton = new System.Windows.Forms.Button();
             this.OpenImageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainPictureBox = new System.Windows.Forms.PictureBox();
-            this.gaussianUpDown = new System.Windows.Forms.NumericUpDown();
             this.mainControlPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gaussianUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.blueNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.green_numeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.red_numeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.medianUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gaussianUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // mainControlPanel
@@ -78,6 +78,33 @@
             this.mainControlPanel.Name = "mainControlPanel";
             this.mainControlPanel.Size = new System.Drawing.Size(200, 337);
             this.mainControlPanel.TabIndex = 0;
+            // 
+            // gaussianUpDown
+            // 
+            this.gaussianUpDown.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.gaussianUpDown.Location = new System.Drawing.Point(133, 120);
+            this.gaussianUpDown.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.gaussianUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.gaussianUpDown.Name = "gaussianUpDown";
+            this.gaussianUpDown.Size = new System.Drawing.Size(47, 20);
+            this.gaussianUpDown.TabIndex = 18;
+            this.gaussianUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // ContrastCB
             // 
@@ -312,36 +339,9 @@
             this.MainPictureBox.Location = new System.Drawing.Point(12, 12);
             this.MainPictureBox.Name = "MainPictureBox";
             this.MainPictureBox.Size = new System.Drawing.Size(516, 337);
-            this.MainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.MainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.MainPictureBox.TabIndex = 1;
             this.MainPictureBox.TabStop = false;
-            // 
-            // gaussianUpDown
-            // 
-            this.gaussianUpDown.Increment = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.gaussianUpDown.Location = new System.Drawing.Point(133, 120);
-            this.gaussianUpDown.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.gaussianUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.gaussianUpDown.Name = "gaussianUpDown";
-            this.gaussianUpDown.Size = new System.Drawing.Size(47, 20);
-            this.gaussianUpDown.TabIndex = 18;
-            this.gaussianUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // MainForm
             // 
@@ -354,12 +354,12 @@
             this.Text = "Face Detector";
             this.mainControlPanel.ResumeLayout(false);
             this.mainControlPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gaussianUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.blueNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.green_numeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.red_numeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.medianUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gaussianUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
