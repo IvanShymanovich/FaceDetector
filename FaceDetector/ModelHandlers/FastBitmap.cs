@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FaceDetector
+namespace FaceDetector.ModelHandlers
 {
-    class FastBitmap
+    public class FastBitmap
     {
-
         private static ColorPalette _palette;
         private int[,] _integralImage;
 
@@ -86,7 +81,7 @@ namespace FaceDetector
             {
                 for (int y = 0; y < Height; y++)
                 {
-
+                    
                 }
             }
             return result;
@@ -109,6 +104,5 @@ namespace FaceDetector
             }
             return grayPixels;
         }
-
     }
 }

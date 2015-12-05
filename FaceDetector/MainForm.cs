@@ -6,6 +6,7 @@ using FaceDetector.Filter;
 using FaceDetector.ViolaJones.Cascade;
 using FaceDetector.ViolaJones;
 using System.Collections.Generic;
+using FaceDetector.ModelHandlers;
 
 
 
@@ -198,5 +199,23 @@ namespace FaceDetector
         //    //}
         //    //pictureBox1.Image = image;
         //}
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (image != null)
+            {
+                FastBitmap fb = new FastBitmap(image);
+                Harries h = new Harries();
+                var corners = h.Corner(fb.GrayPixels, image.Width, image.Height);
+                int r = 10;
+                using (Graphics g = Graphics.FromImage(image))
+                {
+                    foreach (Point p in corners)
+                    {
+                        g.DrawRectangle(Pens.Blue, p.X, p.Y, r, r);
+                    }
+                }
+                MainPictureBox.Image = image;
+            }
+        }
     }
 }

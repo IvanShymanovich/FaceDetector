@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FaceDetector
+namespace FaceDetector.ModelHandlers
 {
     class Derivative
     {
@@ -53,6 +53,5 @@ namespace FaceDetector
             }
             return result;
         }
-
     }
 }
